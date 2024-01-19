@@ -1,0 +1,80 @@
+﻿<Window x:Class="BaseUISupport.Dialogs.Splash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BaseUISupport.Dialogs"
+        xmlns:converters="clr-namespace:BaseUISupport.Converters"
+        mc:Ignorable="d" 
+        Title="Splash" d:Width="600" d:Height="400" Topmost="False" SnapsToDevicePixels="True" Name="SplashWindow" SizeToContent="WidthAndHeight" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Window.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Collapsed"/>
+    </Window.Resources>
+    <Border Background="{DynamicResource WindowBackground}" BorderBrush="{DynamicResource MainAccent}" BorderThickness="1" CornerRadius="{DynamicResource NormalRadius}">
+    <Grid SnapsToDevicePixels="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="ClipBorder" CornerRadius="{DynamicResource NormalRadius}" Margin="0">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="{DynamicResource NormalRadiusValue}" RadiusY="{DynamicResource NormalRadiusValue}">
+                    <RectangleGeometry.Rect>
+                        <MultiBinding Mode="OneWay">
+                            <MultiBinding.Converter>
+                                <converters:RectWidthHeightConverter/>
+                            </MultiBinding.Converter>
+                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Border}, AncestorLevel=1}" Path="ActualWidth"/>
+                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Border}, AncestorLevel=1}" Path="ActualHeight"/>
+                        </MultiBinding>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Border.Clip>
+            <Image SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="LowQuality" Margin="0" Name="SplashContainer" Width="{Binding ElementName=SplashWindow, Path=SplashWidth}" Height="{Binding ElementName=SplashWindow, Path=SplashHeight}" Stretch="UniformToFill" Loaded="SplashContainer_Loaded"/>
+        </Border>
+        <Border SnapsToDevicePixels="True" Height="20" BorderThickness="0" BorderBrush="Transparent" Grid.Row="1">
+            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Margin="2 0" Text="{Binding ElementName=SplashWindow, Path=CurrentStatus}" Foreground="{DynamicResource DetailAccent}"/>
+        </Border>
+        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=SplashWindow, Path=SplashLegend, FallbackValue='Developed by Mauro Rebuffo'}" Foreground="{DynamicResource Foreground}" Opacity=".1" FontSize="9" Margin="0 80 0 0"/>
+        <Button Name="CloseApp" Height="20" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CloseApp_Click" Visibility="{Binding ElementName=SplashWindow, Path=ShowClose, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Path x:Name="ButtonPath" 
+                                                                        Margin="5"
+                                                                        Data="M0,0 L1,1 M0,1 L1,0"
+                                                                        Stroke="#FFFFFF" 
+                                                                        StrokeThickness="2"
+                                                                        StrokeStartLineCap="Flat"
+                                                                        StrokeEndLineCap="Flat"
+                                                                        Stretch="Uniform"
+                                                                        VerticalAlignment="Center"
+                                                                        HorizontalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#66DDDDDD" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter Property="Background" Value="#33DDDDDD"/>
+                                        <Setter TargetName="ButtonPath" Property="Margin" Value="2.5,2.5,1.5,1.5" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <BaseOutputPath>bin\</BaseOutputPath>
+    <DebugType>embedded</DebugType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>rrebuffo.$(AssemblyName)</PackageId>
+    <Title>rrebuffo.BaseUISupport</Title>
+    <Company>rrebuffo</Company>
+    <Description>rrebuffo's UI environment for WPF desktop apps.</Description>
+    <Authors>Mauro Rebuffo</Authors>
+    <Product>rrebuffo.$(AssemblyName)</Product>
+    <RepositoryUrl>https://github.com/rrebuffo/BaseUISupport</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('..\..\FontUISupport\src\FontUISupport.csproj')">
+    <ProjectReference Include="..\..\FontUISupport\src\FontUISupport.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('..\..\FontUISupport\src\FontUISupport.csproj')">
+    <PackageReference Include="rrebuffo.FontUISupport" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
