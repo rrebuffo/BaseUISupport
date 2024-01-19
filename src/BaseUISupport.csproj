@@ -18,8 +18,15 @@
     <Authors>Mauro Rebuffo</Authors>
     <Product>rrebuffo.$(AssemblyName)</Product>
     <RepositoryUrl>https://github.com/rrebuffo/BaseUISupport</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
   </ItemGroup>
