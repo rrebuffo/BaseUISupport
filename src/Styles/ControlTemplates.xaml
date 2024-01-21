@@ -6,8 +6,8 @@
                     xmlns:converters="clr-namespace:BaseUISupport.Converters">
 
 
-    <FontFamily x:Key="TimecodeFont">pack://application:,,,/BaseFontSupport;component/fonts/#Lekton</FontFamily>
-    <FontFamily x:Key="DefaultFont">pack://application:,,,/BaseFontSupport;component/fonts/#Open Sans</FontFamily>
+    <FontFamily x:Key="TimecodeFont">pack://application:,,,/FontUISupport;component/fonts/#Lekton</FontFamily>
+    <FontFamily x:Key="DefaultFont">pack://application:,,,/FontUISupport;component/fonts/#Open Sans</FontFamily>
     
     <sys:Double x:Key="NormalRadiusValue">5</sys:Double>
     <sys:Double x:Key="CompactRadiusValue">3</sys:Double>
