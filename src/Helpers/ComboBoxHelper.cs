@@ -53,13 +53,13 @@ class ComboBoxHelper
         public Tracker(ComboBox comboBox)
         {
             ComboBox = comboBox;
-            if (comboBox.FindParent<Popup>() is Popup dropDown)
+            if (comboBox.FindChild<Popup>() is Popup dropDown)
             {
                 DropDown = dropDown;
                 DropDown.Opened += DropDown_Opened;
             }
             else return;
-            if (ComboBox.FindParent<ToggleButton>() is ToggleButton toggle && toggle.FindParent<Border>() is Border toggle_border)
+            if (ComboBox.FindChild<ToggleButton>() is ToggleButton toggle && toggle.FindChild<Border>() is Border toggle_border)
             {
                 ComboRadius = toggle_border.CornerRadius;
             }
@@ -77,7 +77,7 @@ class ComboBoxHelper
             if (DropDown is null) return;
             DropDown.Closed -= DropDown_Closed;
 
-            if (ComboBox.FindParent<ToggleButton>() is ToggleButton toggle && toggle.FindParent<Border>() is Border toggle_border)
+            if (ComboBox.FindChild<ToggleButton>() is ToggleButton toggle && toggle.FindChild<Border>() is Border toggle_border)
             {
                 toggle_border.CornerRadius = ComboRadius;
             }
@@ -110,11 +110,11 @@ class ComboBoxHelper
             var popup_bl = (dd_x == 0 && dd_y < 0) ? 0 : radius;
             var popup_corner = new CornerRadius(popup_tl, popup_tr, popup_br, popup_bl);
 
-            if (VisualTreeHelpers.FindChild<Border>(DropDown.Child) is Border popup_border1 && popup_border1.FindParent<Border>() is Border popup_border2)
+            if (VisualTreeHelpers.FindChild<Border>(DropDown.Child) is Border popup_border1 && popup_border1.FindChild<Border>() is Border popup_border2)
             {
                 popup_border1.CornerRadius = popup_border2.CornerRadius = popup_corner;
             }
-            if (ComboBox.FindParent<ToggleButton>() is ToggleButton toggle && toggle.FindParent<Border>() is Border toggle_border)
+            if (ComboBox.FindChild<ToggleButton>() is ToggleButton toggle && toggle.FindChild<Border>() is Border toggle_border)
             {
                 toggle_border.CornerRadius = combo_corner;
             }

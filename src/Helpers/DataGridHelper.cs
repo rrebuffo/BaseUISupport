@@ -44,10 +44,10 @@ public class DataGridHelper
         double? radius = null;
         for(var i=0; i<grid.Columns.Count; i++)
         {
-            if (grid.FindParent<DataGridRowsPresenter>() is not DataGridRowsPresenter rows) continue;
+            if (grid.FindChild<DataGridRowsPresenter>() is not DataGridRowsPresenter rows) continue;
             foreach(DataGridRow row in rows.Children)
             {
-                if(row.FindParent<DataGridCellsPanel>() is DataGridCellsPanel cells)
+                if(row.FindChild<DataGridCellsPanel>() is DataGridCellsPanel cells)
                 {
                     for (var c = 0; c < cells.Children.Count; c++)
                     {
