@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,7 +10,7 @@ public class TabbedPanel : TabControl, INotifyPropertyChanged
 {
     public TabbedPanel()
     {
-
+        SetValue(CommandButtonsProperty, new ObservableCollection<Button>());
     }
 
     protected override DependencyObject GetContainerForItemOverride()
@@ -17,17 +18,13 @@ public class TabbedPanel : TabControl, INotifyPropertyChanged
         return new TabbedPanelItem();
     }
 
-    public static readonly DependencyProperty CommandIconsProperty = DependencyProperty.Register("CommandIcons", typeof(object[]), typeof(TabbedPanel));
+    public static readonly DependencyProperty CommandButtonsProperty = DependencyProperty.Register("CommandButtons", typeof(ObservableCollection<Button>), typeof(TabbedPanel), new UIPropertyMetadata());
 
-    public object CommandIcons
+    public ObservableCollection<Button> CommandButtons
     {
         get
         {
-            return GetValue(CommandIconsProperty);
-        }
-        set
-        {
-            SetValue(CommandIconsProperty, value);
+            return (ObservableCollection<Button>)GetValue(CommandButtonsProperty);
         }
     }
 

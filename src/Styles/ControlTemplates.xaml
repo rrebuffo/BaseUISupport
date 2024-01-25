@@ -2252,7 +2252,7 @@
         <Setter Property="ItemContainerStyle" Value="{DynamicResource TabbedPanelItem}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabControl}">
+                <ControlTemplate TargetType="{x:Type ui:TabbedPanel}">
                     <Grid ClipToBounds="False" SnapsToDevicePixels="True" KeyboardNavigation.TabNavigation="Local">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -2266,7 +2266,7 @@
                             <ScrollViewer Margin="0 0 0 -6" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" CanContentScroll="False" Grid.Column="0" Grid.Row="0">
                                 <DockPanel IsItemsHost="True" Name="HeaderPanel" Panel.ZIndex="0" KeyboardNavigation.TabIndex="1" LastChildFill="False"/>
                             </ScrollViewer>
-                            <ItemsControl Grid.Column="1" Margin="0 0 0 -5" ItemsSource="{Binding Path=CommandIcons, RelativeSource={RelativeSource AncestorType=ui:TabbedPanel}}">
+                            <ItemsControl Grid.Column="1" Margin="0 0 0 -5" ItemsSource="{TemplateBinding CommandButtons}">
                                 <ItemsControl.Resources>
                                     <Style TargetType="{x:Type Button}">
                                         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}"/>
