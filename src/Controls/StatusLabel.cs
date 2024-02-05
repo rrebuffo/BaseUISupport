@@ -1,25 +1,37 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace BaseUISupport.Controls;
 
-/// <summary>
-/// Interaction logic for StatusLabel.xaml
-/// </summary>
-public partial class StatusLabel : UserControl
+[TemplatePart(Name = "PART_IconPath", Type = typeof(Path))]
+[TemplatePart(Name = "PART_Label", Type = typeof(ContentControl))]
+[TemplatePart(Name = "PART_Border", Type = typeof(Border))]
+
+public class StatusLabel : Control
 {
-    public StatusLabel()
+    static StatusLabel()
     {
-        InitializeComponent();
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(StatusLabel), new FrameworkPropertyMetadata(typeof(StatusLabel)));
     }
 
-    public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(DependencyObject), typeof(StatusLabel));
-    public DependencyObject Label
+    public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(object), typeof(StatusLabel));
+    public object Label
     {
         get
         {
-            return (DependencyObject)GetValue(LabelProperty);
+            return GetValue(LabelProperty);
         }
         set
         {
@@ -66,6 +78,7 @@ public partial class StatusLabel : UserControl
         }
     }
 }
+
 
 public enum StatusLabelState
 {

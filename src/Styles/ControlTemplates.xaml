@@ -2833,4 +2833,104 @@
     </Style>
     <Style TargetType="{x:Type ui:ConfigItem}" BasedOn="{StaticResource ConfigItem}"/>
 
+    <Style x:Key="StatusLabel" TargetType="{x:Type ui:StatusLabel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:StatusLabel}">
+                    <Grid Margin="2 5" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" SharedSizeGroup="StatusLabelSG"/>
+                        </Grid.ColumnDefinitions>
+                        <Border VerticalAlignment="Stretch"  Background="Transparent" BorderThickness=".5" BorderBrush="Transparent" CornerRadius="{DynamicResource CompactRadius}"/>
+                        <ProgressBar Minimum="0" Maximum="1" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelProgress}">
+                            <ProgressBar.Style>
+                                <Style TargetType="{x:Type ProgressBar}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                                <Grid>
+                                                    <Border x:Name="PART_Track"/>
+                                                    <Border x:Name="PART_Indicator" CornerRadius="{DynamicResource CompactRadius}" BorderThickness="1" BorderBrush="Transparent" HorizontalAlignment="Left" Background="{DynamicResource BaseBgGreen}" Margin="0"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelProgress}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ProgressBar.Style>
+                        </ProgressBar>
+                        <Border Name="PART_Border" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="#66FFFFFF" BorderThickness="1" CornerRadius="{DynamicResource CompactRadius}">
+                        </Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentControl Name="PART_Label" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Label}" Margin="6 3 6 1"
+                                            TextBlock.FontSize="10" TextBlock.FontWeight="SemiBold" TextBlock.LineStackingStrategy="BlockLineHeight"
+                                            TextBlock.LineHeight="{Binding Path=TextBlock.FontSize, RelativeSource={RelativeSource Self}}"
+                                            HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Path Name="PART_IconPath" Grid.Column="1" Margin="0 0 6 0" Width="8" Height="8" Stretch="Uniform"
+                                  Fill="{DynamicResource Foreground}"/>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="LabelState" Value="Idle">
+                            <Setter TargetName="PART_IconPath" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="#66FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="LabelState" Value="Ok">
+                            <Setter TargetName="PART_IconPath" Property="Fill" Value="{DynamicResource BaseBgGreen}"/>
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource BaseBgGreen}"/>
+                        </Trigger>
+                        <Trigger Property="LabelState" Value="Warning">
+                            <Setter TargetName="PART_IconPath" Property="Fill" Value="{DynamicResource BaseBgYellow}"/>
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource BaseBgYellow}"/>
+                            <Setter TargetName="PART_Label" Property="TextBlock.Foreground" Value="{DynamicResource BaseBgYellow}"/>
+                        </Trigger>
+                        <Trigger Property="LabelState" Value="Error">
+                            <Setter TargetName="PART_IconPath" Property="Fill" Value="{DynamicResource BaseBgRed}"/>
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="{DynamicResource BaseBgRed}"/>
+                            <Setter TargetName="PART_Label" Property="TextBlock.Foreground" Value="{DynamicResource BaseBgRed}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="LabelState" Value="Idle"/>
+                                <Condition Property="LabelIcon" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_IconPath" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_Border" Property="BorderBrush" Value="#66FFFFFF"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="LabelState" Value="Ok"/>
+                                <Condition Property="LabelIcon" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_IconPath" Property="Style" Value="{DynamicResource CheckIcon}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="LabelState" Value="Warning"/>
+                                <Condition Property="LabelIcon" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_IconPath" Property="Style" Value="{DynamicResource QuestionIcon}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="LabelState" Value="Error"/>
+                                <Condition Property="LabelIcon" Value="{x:Null}"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_IconPath" Property="Style" Value="{DynamicResource RemoveIcon}"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type ui:StatusLabel}" BasedOn="{StaticResource StatusLabel}"/>
+
 </ResourceDictionary>
