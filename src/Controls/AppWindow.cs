@@ -29,9 +29,9 @@ public partial class AppWindow : Window, INotifyPropertyChanged, IDisposable
             }
             catch (Exception)
             {
-                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("/BaseUISupport/Styles/DarkColors.xaml", UriKind.Relative)));
-                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("/BaseUISupport/Styles/ControlTemplates.xaml", UriKind.Relative)));
-                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("/BaseUISupport/Styles/Icons.xaml", UriKind.Relative)));
+                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("pack://application:,,,/BaseUISupport;component/Styles/DarkColors.xaml", UriKind.Relative)));
+                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("pack://application:,,,/BaseUISupport;component/Styles/ControlTemplates.xaml", UriKind.Relative)));
+                Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(new Uri("pack://application:,,,/BaseUISupport;component/Styles/Icons.xaml", UriKind.Relative)));
             }
 
             Thread.Sleep(10);
