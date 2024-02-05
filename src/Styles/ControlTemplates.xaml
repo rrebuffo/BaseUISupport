@@ -2651,6 +2651,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ProgressBar" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Foreground" Value="{DynamicResource MainAccent}"/>
+        <Setter Property="Background" Value="{DynamicResource ControlBgIdle}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MainAccent}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ControlBgOver}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ProgressBar}" BasedOn="{StaticResource ProgressBar}"/>
+
     <Style x:Key="DataGridTextColumnStyle" TargetType="TextBox">
         <Setter Property="Padding" Value="2" />
         <Setter Property="Background" Value="Transparent" />
