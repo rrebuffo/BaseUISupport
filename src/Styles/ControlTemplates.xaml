@@ -223,10 +223,6 @@
                             <!-- STATUS BAR -->
                             <ContentPresenter Grid.Row="2" x:Name="StatusBar" VerticalAlignment="Center" Content="{Binding Path=StatusBar, RelativeSource={RelativeSource AncestorType=ui:AppWindow}}" Margin="5 0 5 0"/>
                             
-                            <!-- WINDOW BORDER -->
-                            <ResizeGrip Grid.Row="2" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" IsTabStop="false" />
-                            <Border x:Name="WindowBorder" Grid.RowSpan="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource WindowRadius}" SnapsToDevicePixels="True"/>
-
                             <!-- WINDOW CAPTION -->
                             <DockPanel SnapsToDevicePixels="True">
                                 <!-- RIGHT AREA -->
@@ -238,8 +234,8 @@
                                 </StackPanel>
 
                                 <!-- LEFT AREA-->
-                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 2 5 0" SnapsToDevicePixels="True">
-                                    <ContentPresenter Content="{Binding Path=WindowIcon, RelativeSource={RelativeSource AncestorType=ui:AppWindow}}"/>
+                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 5 0" SnapsToDevicePixels="True">
+                                    <ContentPresenter Content="{Binding Path=WindowIcon, RelativeSource={RelativeSource AncestorType=ui:AppWindow}}" WindowChrome.IsHitTestVisibleInChrome="True"/>
                                     <TextBlock x:Name="Title" Text="{TemplateBinding Title}" VerticalAlignment="Center" Margin="6 0"/>
                                     <Border x:Name="TitleSeparator" VerticalAlignment="Stretch" Width="1" BorderBrush="{DynamicResource DetailAccent}" BorderThickness="1" Margin="6" SnapsToDevicePixels="True" />
                                     <ContentPresenter x:Name="MenuBar" VerticalAlignment="Center" TextBlock.Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Window}}" WindowChrome.IsHitTestVisibleInChrome="True" Content="{Binding Path=MenuBar, RelativeSource={RelativeSource AncestorType=ui:AppWindow}}"/>
@@ -248,6 +244,10 @@
                                 <!-- STATUS BLOCK -->
                                 <ContentPresenter x:Name="TopStatusBlock" Margin="10 1 10 0" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{Binding Path=TopStatusBlock, RelativeSource={RelativeSource AncestorType=ui:AppWindow}}" WindowChrome.IsHitTestVisibleInChrome="False"/>
                             </DockPanel>
+                            
+                            <!-- WINDOW BORDER -->
+                            <ResizeGrip Grid.Row="2" x:Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" IsTabStop="false" />
+                            <Border x:Name="WindowBorder" Grid.RowSpan="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Margin="-1" CornerRadius="{DynamicResource WindowRadius}" SnapsToDevicePixels="True"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
