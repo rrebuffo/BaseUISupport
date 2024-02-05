@@ -31,6 +31,19 @@ public class IconButton : Button
         }
     }
 
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(IconButton), new UIPropertyMetadata(new CornerRadius(0)));
+    public CornerRadius CornerRadius
+    {
+        get
+        {
+            return (CornerRadius)GetValue(CornerRadiusProperty);
+        }
+        set
+        {
+            SetValue(CornerRadiusProperty, value);
+        }
+    }
+
     public static readonly DependencyProperty SizeProperty = DependencyProperty.Register("Size", typeof(double), typeof(IconButton), new(0d));
     public double Size
     {
