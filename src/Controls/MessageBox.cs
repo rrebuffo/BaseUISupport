@@ -86,19 +86,31 @@ public static class MessageBox
         Button OK_Button = new() { IsDefault = defaultResult == MessageBoxResult.OK, Content = Application.Current.TryFindResource("LocaleString_MessageBox_OK_Button") ?? "OK" };
         Button Cancel_Button = new() { IsCancel = true, IsDefault = defaultResult == MessageBoxResult.Cancel, Content = Application.Current.TryFindResource("LocaleString_MessageBox_Cancel_Button") ?? "Cancel" };
         Button Yes_Button = new() { IsDefault = defaultResult == MessageBoxResult.Yes, Content = Application.Current.TryFindResource("LocaleString_MessageBox_Yes_Button") ?? "Yes" };
-        Button No_Button = new() { IsDefault = defaultResult == MessageBoxResult.No, Content = Application.Current.TryFindResource("LocaleString_MessageBox_No_Button") ?? "No" };
+        Button No_Button = new() { IsCancel = button != MessageBoxButton.YesNoCancel, IsDefault = defaultResult == MessageBoxResult.No, Content = Application.Current.TryFindResource("LocaleString_MessageBox_No_Button") ?? "No" };
 
         Button[]? buttons = button switch
         {
-            MessageBoxButton.OK => new Button[] { OK_Button },
-            MessageBoxButton.OKCancel => new Button[] { OK_Button, Cancel_Button },
-            MessageBoxButton.YesNoCancel => new Button[] { Yes_Button, No_Button, Cancel_Button },
-            MessageBoxButton.YesNo => new Button[] { Yes_Button, No_Button },
+            MessageBoxButton.OK => [OK_Button],
+            MessageBoxButton.OKCancel => [OK_Button, Cancel_Button],
+            MessageBoxButton.YesNoCancel => [Yes_Button, No_Button, Cancel_Button],
+            MessageBoxButton.YesNo => [Yes_Button, No_Button],
             _ => null
         };
+        if (options == MessageBoxOptions.RtlReading)
+        {
+            buttons = button switch
+            {
+                MessageBoxButton.OK => [OK_Button],
+                MessageBoxButton.OKCancel => [Cancel_Button, OK_Button],
+                MessageBoxButton.YesNoCancel => [Cancel_Button, No_Button, Yes_Button],
+                MessageBoxButton.YesNo => [No_Button, Yes_Button],
+                _ => null
+            };
+        }
 
         MessageDialog dialog = new()
         {
+            Owner = owner,
             WindowStartupLocation = owner is null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner,
             Button = button,
             Image = icon,
@@ -106,8 +118,8 @@ public static class MessageBox
             Message = message,
             Options = options
         };
-        dialog.Owner = Application.Current.MainWindow != dialog ? Application.Current.MainWindow : null;
-        if (dialog.Owner is null) dialog.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        dialog.Owner ??= Application.Current.MainWindow != dialog && Application.Current.MainWindow.ActualWidth > 10 ? Application.Current.MainWindow : null;
+        dialog.WindowStartupLocation = dialog.Owner is null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 
         OK_Button.Click += (object? sender, RoutedEventArgs e) => { result = MessageBoxResult.OK; dialog.Close(); };
         Cancel_Button.Click += (object? sender, RoutedEventArgs e) => { result = MessageBoxResult.Cancel; dialog.Close(); };
@@ -119,12 +131,12 @@ public static class MessageBox
         return result;
     }
 
-    public static MessageDialog Edit(string caption, EditBoxField[] fields, string? editLabel = null, string? cancelLabel = null)
+    public static MessageDialog Edit(string caption, EditBoxField[] fields, string? editLabel = null, string? cancelLabel = null, bool invertButtons = false)
     {
         Button Edit_Button = new() { IsDefault = true, Content = editLabel ?? Application.Current.TryFindResource("LocaleString_EditBox_Edit_Button") ?? "Edit" };
         Button Cancel_Button = new() { IsCancel = true, Content = cancelLabel ?? Application.Current.TryFindResource("LocaleString_EditBox_Cancel_Button") ?? "Cancel" };
-        Button[] buttons = new Button[] { Edit_Button, Cancel_Button };
-
+        Button[] buttons = [Edit_Button, Cancel_Button];
+        if (invertButtons) buttons = [Cancel_Button, Edit_Button];
         MessageDialog dialog = new()
         {
             Owner = Application.Current.MainWindow,
@@ -137,6 +149,7 @@ public static class MessageBox
         Cancel_Button.Click += (object? sender, RoutedEventArgs e) => { dialog.Result = MessageBoxResult.Cancel; dialog.Close(); };
          
         dialog.ButtonRow.ItemsSource = buttons;
+        dialog.EditFields.ItemsSource = fields;
         dialog.ShowDialog();
         return dialog;
     }
@@ -211,11 +224,15 @@ public class EditBoxField : INotifyPropertyChanged
         }
     }
 
-    private string _fieldValue = "";
+    private string? _fieldValue = null;
     public string FieldValue
     {
         get
         {
+            if (_fieldValue is null)
+            {
+                _fieldValue = TargetValue is string sourceValue ? sourceValue : "";
+            }
             return _fieldValue;
         }
         set
@@ -232,7 +249,8 @@ public class EditBoxField : INotifyPropertyChanged
     {
         get
         {
-            if(TargetObject is not null && !string.IsNullOrEmpty(FieldProperty) && TargetObject.GetType().GetProperty(FieldProperty) is object value)
+            if(TargetObject is not null && !string.IsNullOrEmpty(FieldProperty)
+                && TargetObject.GetType().GetProperty(FieldProperty) is PropertyInfo info && info.GetValue(TargetObject) is object value)
             {
 
                 return value;
@@ -241,11 +259,29 @@ public class EditBoxField : INotifyPropertyChanged
         }
     }
 
-    public EditBoxField(string fieldName, object targetObject, string fieldProperty)
+    private bool _isMultiline = false;
+    public bool IsMultiline
+    {
+        get
+        {
+            return _isMultiline;
+        }
+        set
+        {
+            if (_isMultiline != value)
+            {
+                _isMultiline = value;
+                OnPropertyChanged(nameof(IsMultiline));
+            }
+        }
+    }
+
+    public EditBoxField(string fieldName, object targetObject, string fieldProperty, bool? multiline = false)
     {
         FieldName = fieldName;
         TargetObject = targetObject;
         FieldProperty = fieldProperty;
+        IsMultiline = multiline ?? false;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

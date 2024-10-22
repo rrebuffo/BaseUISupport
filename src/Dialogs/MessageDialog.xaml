@@ -14,11 +14,11 @@
         </Grid>
         <Grid x:Key="Info_Icon">
             <Ellipse Fill="White" Width="512" Height="512" />
-            <Path Fill="{DynamicResource MainAccent}" Width="512" Height="512" Data="M 256.043,19 C 125.128,19 19,125.128 19,256.043 c 0,130.915 106.128,237.042 237.043,237.042 130.915,0 237.042,-106.127 237.042,-237.042 C 493.085,125.128 386.958,19 256.043,19 Z m 30.333,361.17 a 30,30 0 1 1 -60,0 v -159.9 a 30,30 0 1 1 60,0 z m -30,-215.254 a 33,33 0 1 1 33,-33 33,33 0 0 1 -33,33 z"/>
+            <Path Fill="{DynamicResource BaseBgBlue}" Width="512" Height="512" Data="M 256.043,19 C 125.128,19 19,125.128 19,256.043 c 0,130.915 106.128,237.042 237.043,237.042 130.915,0 237.042,-106.127 237.042,-237.042 C 493.085,125.128 386.958,19 256.043,19 Z m 30.333,361.17 a 30,30 0 1 1 -60,0 v -159.9 a 30,30 0 1 1 60,0 z m -30,-215.254 a 33,33 0 1 1 33,-33 33,33 0 0 1 -33,33 z"/>
         </Grid>
         <Grid x:Key="Question_Icon">
             <Ellipse Fill="White" Width="512" Height="512" />
-            <Path Fill="{DynamicResource MainAccent}" Width="512" Height="512" Data="M 256.043,19 C 125.128,19 19,125.128 19,256.043 c 0,130.915 106.128,237.042 237.043,237.042 130.915,0 237.042,-106.127 237.042,-237.042 C 493.085,125.128 386.958,19 256.043,19 Z m 1.333,404.085 a 33,33 0 1 1 33,-33 33,33 0 0 1 -33,33 z M 327.82,249.424 c -5.037,4.337 -10.064,8.255 -14.926,12.044 -20.273,15.797 -30.018,24.208 -30.018,42.617 a 27.5,27.5 0 0 1 -55,0 c 0,-46.1 29.6,-69.16 51.212,-86 4.539,-3.538 8.827,-6.879 12.844,-10.337 8.46,-7.286 11.146,-21.055 6.532,-33.485 -3.283,-8.844 -12.856,-23.678 -40.088,-23.678 -35.323,0 -45.958,21.925 -47.055,24.425 0.151,-0.344 0.215,-0.533 0.215,-0.533 0,0 -11.623,28.429 -36.892,18.019 -25.269,-10.41 -14.428,-37.8 -14.428,-37.8 1.046,-2.712 7.015,-16.948 21.909,-30.917 13.713,-12.863 38.073,-28.194 76.251,-28.194 22.12,0 42.414,5.927 58.688,17.14 a 88.685,88.685 0 0 1 32.961,42.4 c 12.651,34.072 3.727,71.969 -22.205,94.299 z"/>
+            <Path Fill="{DynamicResource BaseBgBlue}" Width="512" Height="512" Data="M 256.043,19 C 125.128,19 19,125.128 19,256.043 c 0,130.915 106.128,237.042 237.043,237.042 130.915,0 237.042,-106.127 237.042,-237.042 C 493.085,125.128 386.958,19 256.043,19 Z m 1.333,404.085 a 33,33 0 1 1 33,-33 33,33 0 0 1 -33,33 z M 327.82,249.424 c -5.037,4.337 -10.064,8.255 -14.926,12.044 -20.273,15.797 -30.018,24.208 -30.018,42.617 a 27.5,27.5 0 0 1 -55,0 c 0,-46.1 29.6,-69.16 51.212,-86 4.539,-3.538 8.827,-6.879 12.844,-10.337 8.46,-7.286 11.146,-21.055 6.532,-33.485 -3.283,-8.844 -12.856,-23.678 -40.088,-23.678 -35.323,0 -45.958,21.925 -47.055,24.425 0.151,-0.344 0.215,-0.533 0.215,-0.533 0,0 -11.623,28.429 -36.892,18.019 -25.269,-10.41 -14.428,-37.8 -14.428,-37.8 1.046,-2.712 7.015,-16.948 21.909,-30.917 13.713,-12.863 38.073,-28.194 76.251,-28.194 22.12,0 42.414,5.927 58.688,17.14 a 88.685,88.685 0 0 1 32.961,42.4 c 12.651,34.072 3.727,71.969 -22.205,94.299 z"/>
         </Grid>
         <Grid x:Key="Error_Icon">
             <Ellipse Fill="White" Width="512" Height="512" />
@@ -105,7 +105,7 @@
                 <TextBlock Grid.Column="1" Text="{Binding Message}" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Style="{StaticResource CaptionTextBlock}">
                 </TextBlock>
 
-                <ItemsControl Grid.ColumnSpan="2" Grid.Row="1" Margin="10 0" ItemsSource="{Binding Fields}" Grid.IsSharedSizeScope="True" VerticalAlignment="Center">
+                <ItemsControl x:Name="EditFields" Grid.ColumnSpan="2" Grid.Row="1" Margin="10 0" Grid.IsSharedSizeScope="True" VerticalAlignment="Center">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical" />
@@ -119,7 +119,7 @@
                                     <ColumnDefinition Width="*" MinWidth="250" SharedSizeGroup="EditBoxValues"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding FieldName}" HorizontalAlignment="Right" Margin="0 0 10 0" VerticalAlignment="Center"/>
-                                <TextBox x:Name="EditField" Grid.Column="1" Text="{Binding FieldValue, Mode=TwoWay}" Margin="0 2"/>
+                                <TextBox x:Name="EditField" Grid.Column="1" Text="{Binding FieldValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 2"/>
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsMultiline}" Value="True">
