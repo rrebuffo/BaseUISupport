@@ -56,6 +56,19 @@ public class TabbedPanel : TabControl, INotifyPropertyChanged
     }
 
 
+    public static readonly DependencyProperty ScrollTabsProperty = DependencyProperty.Register("ScrollTabs", typeof(bool), typeof(TabbedPanel), new UIPropertyMetadata(true));
+    public bool ScrollTabs
+    {
+        get
+        {
+            return (bool)GetValue(ScrollTabsProperty);
+        }
+        set
+        {
+            SetValue(ScrollTabsProperty, value);
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged(string propertyName)
     {
