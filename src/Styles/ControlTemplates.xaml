@@ -2978,4 +2978,11 @@
     </Style>
     <Style TargetType="{x:Type ui:StatusLabel}" BasedOn="{StaticResource StatusLabel}"/>
 
+    <Style x:Key="Panel" TargetType="{x:Type Border}">
+        <Setter Property="CornerRadius" Value="{DynamicResource CompactRadius}"/>
+        <Setter Property="Background" Value="{DynamicResource Background}"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+
 </ResourceDictionary>
