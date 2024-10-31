@@ -2954,14 +2954,17 @@
     <Style TargetType="{x:Type ui:ConfigItem}" BasedOn="{StaticResource ConfigItem}"/>
 
     <Style x:Key="StatusLabel" TargetType="{x:Type ui:StatusLabel}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="6 3"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ui:StatusLabel}">
-                    <Grid Margin="2 5" Background="Transparent">
+                    <Grid Margin="{TemplateBinding Margin}" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" SharedSizeGroup="StatusLabelSG"/>
                         </Grid.ColumnDefinitions>
-                        <Border VerticalAlignment="Stretch"  Background="Transparent" BorderThickness=".5" BorderBrush="Transparent" CornerRadius="{DynamicResource CompactRadius}"/>
+                        <Border VerticalAlignment="Stretch"  Background="{TemplateBinding Background}" BorderThickness=".5" BorderBrush="Transparent" CornerRadius="{DynamicResource CompactRadius}"/>
                         <ProgressBar Minimum="0" Maximum="1" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelProgress}">
                             <ProgressBar.Style>
                                 <Style TargetType="{x:Type ProgressBar}">
@@ -2985,16 +2988,18 @@
                         </ProgressBar>
                         <Border Name="PART_Border" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="#66FFFFFF" BorderThickness="1" CornerRadius="{DynamicResource CompactRadius}">
                         </Border>
-                        <Grid>
+                        <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ContentControl Name="PART_Label" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Label}" Margin="6 3 6 1"
+                            <ContentControl Name="PART_Label" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Label}" Margin="0"
                                             TextBlock.FontSize="10" TextBlock.FontWeight="SemiBold" TextBlock.LineStackingStrategy="BlockLineHeight"
-                                            TextBlock.LineHeight="{Binding Path=TextBlock.FontSize, RelativeSource={RelativeSource Self}}"
+                                            TextBlock.LineHeight="10"
                                             HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                            <Path Name="PART_IconPath" Grid.Column="1" Margin="0 0 6 0" Width="8" Height="8" Stretch="Uniform"
+                            <Border Name="PART_Gap" Grid.Column="1" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Gap}" VerticalAlignment="Stretch" Background="Transparent"/>
+                            <Path Name="PART_IconPath" Grid.Column="2" Margin="0 0 0 0" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IconSize}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IconSize}" Stretch="Uniform"
                                   Fill="{DynamicResource Foreground}"/>
                         </Grid>
                     </Grid>
@@ -3022,6 +3027,7 @@
                                 <Condition Property="LabelState" Value="Idle"/>
                                 <Condition Property="LabelIcon" Value="{x:Null}"/>
                             </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_Gap" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_IconPath" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="PART_Border" Property="BorderBrush" Value="#66FFFFFF"/>
                         </MultiTrigger>

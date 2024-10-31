@@ -65,6 +65,32 @@ public class StatusLabel : Control
         }
     }
 
+    public static readonly DependencyProperty GapProperty = DependencyProperty.Register(nameof(Gap), typeof(double), typeof(StatusLabel), new PropertyMetadata(4d));
+    public double Gap
+    {
+        get
+        {
+            return (double)GetValue(GapProperty);
+        }
+        set
+        {
+            SetValue(GapProperty, value);
+        }
+    }
+
+    public static readonly DependencyProperty IconSizeProperty = DependencyProperty.Register(nameof(IconSize), typeof(double), typeof(StatusLabel), new PropertyMetadata(8d));
+    public double IconSize
+    {
+        get
+        {
+            return (double)GetValue(IconSizeProperty);
+        }
+        set
+        {
+            SetValue(IconSizeProperty, value);
+        }
+    }
+
     public static readonly DependencyProperty LabelIconProperty = DependencyProperty.Register(nameof(LabelIcon), typeof(Geometry), typeof(StatusLabel), new PropertyMetadata(null));
     public Geometry LabelIcon
     {
