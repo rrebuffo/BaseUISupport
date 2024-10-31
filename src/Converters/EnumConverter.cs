@@ -11,7 +11,6 @@ public class EnumConverter : IValueConverter
 {
     private static string? GetEnumDescription(Enum enumObj)
     {
-        Debug.WriteLine(CultureInfo.CurrentCulture);
         if (enumObj.GetType().GetField(enumObj.ToString()) is not FieldInfo fieldInfo) return null;
 
         object[] attribArray = fieldInfo.GetCustomAttributes(false);

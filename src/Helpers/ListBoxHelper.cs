@@ -381,7 +381,6 @@ public class ListBoxHelper
                     {
                         Point bounds = h_item.TranslatePoint(new Point(0, -Scroll.VerticalOffset), Container);
                         double y = bounds.Y + h_item.RenderSize.Height / 2 - MousePosition.Y;
-                        Debug.WriteLine("bounds: {0}", bounds);
                         DropIndex = y < 0 ? Closest + 1 : Closest;
                     }
                     break;
