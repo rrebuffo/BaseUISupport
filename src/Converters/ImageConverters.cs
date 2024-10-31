@@ -21,8 +21,13 @@ public class StringToImageConverter : IValueConverter
                 image.BeginInit();
                 image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
                 image.CacheOption = BitmapCacheOption.OnLoad;
-                if (!File.Exists(uri)) return null;
-                image.UriSource = new Uri(uri);
+                if (uri.StartsWith("http")) image.UriSource = new Uri(uri, UriKind.Absolute);
+                else
+                {
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    if (!File.Exists(uri)) return null;
+                    image.UriSource = new Uri(uri);
+                }
                 image.EndInit();
                 result = image;
             }
