@@ -43,6 +43,27 @@ public class StringToImageConverter : IValueConverter
     }
 }
 
+public class CustomStringToImageConverter : IMultiValueConverter
+{
+    public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+
+        if (values[0] is string path && values[1] is string format)
+        {
+            return new StringToImageConverter().Convert(string.Format(format, path), typeof(BitmapImage), null, null);
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public class ByteArrayToImageConverter : IValueConverter
 {
     public object? Convert(object value, Type targetType, object? parameter, CultureInfo? culture)
