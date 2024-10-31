@@ -2787,7 +2787,8 @@
                         <sys:Double x:Key="DescColMinWidth">160</sys:Double>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PropertyNameTextBlock}" />
                         <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBox}">
-                            <Setter Property="Margin" Value="1" />
+                            <Setter Property="Margin" Value="2" />
+                            <Setter Property="Padding" Value="2 4" />
                             <Setter Property="MinWidth" Value="150" />
                         </Style>
                         <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBox}">
