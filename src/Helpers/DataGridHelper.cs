@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace BaseUISupport.Helpers;
 
@@ -118,6 +119,54 @@ public class DataGridHelper
             DataGrid.LoadingRow -= DataGrid_LoadingRow;
             DataGrid.Initialized -= DataGrid_Initialized;
             DataGrid.InitializingNewItem -= DataGrid_InitializingNewItem;
+        }
+    }
+}
+
+public class EnterKeyTraversal
+{
+    public static bool GetIsEnabled(DependencyObject obj)
+    {
+        return (bool)obj.GetValue(IsEnabledProperty);
+    }
+
+    public static void SetIsEnabled(DependencyObject obj, bool value)
+    {
+        obj.SetValue(IsEnabledProperty, value);
+    }
+
+    static void FrameworkElement_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.OriginalSource is not FrameworkElement element) return;
+
+        if (e.Key == Key.Enter)
+        {
+            e.Handled = true;
+            element.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+        }
+    }
+
+    private static void FrameworkElement_Unloaded(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is not FrameworkElement element) return;
+        element.Unloaded -= FrameworkElement_Unloaded;
+        element.PreviewKeyDown -= FrameworkElement_PreviewKeyDown;
+    }
+
+    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(EnterKeyTraversal), new UIPropertyMetadata(false, IsEnabledChanged));
+
+    static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not FrameworkElement element || e.NewValue is not bool value) return;
+
+        if (value)
+        {
+            element.Unloaded += FrameworkElement_Unloaded;
+            element.PreviewKeyDown += FrameworkElement_PreviewKeyDown;
+        }
+        else
+        {
+            element.PreviewKeyDown -= FrameworkElement_PreviewKeyDown;
         }
     }
 }
