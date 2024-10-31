@@ -2826,6 +2826,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <ContentPresenter.Style>
                                     <Style TargetType="ContentPresenter">
@@ -2932,6 +2936,11 @@
                                                     <ui:ConfigurationItemType>Integer</ui:ConfigurationItemType>
                                                 </DataTrigger.Value>
                                                 <Setter Property="Grid.Column" Value="1"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowDescriptionBelow}" Value="True">
+                                                <Setter Property="Grid.Column" Value="0"/>
+                                                <Setter Property="Grid.ColumnSpan" Value="4"/>
+                                                <Setter Property="Grid.Row" Value="1"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

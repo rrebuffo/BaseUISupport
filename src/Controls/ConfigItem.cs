@@ -156,6 +156,19 @@ public class ConfigItem : Control
             SetValue(InnerContentProperty, value);
         }
     }
+
+    public static readonly DependencyProperty ShowDescriptionBelowProperty = DependencyProperty.Register("ShowDescriptionBelow", typeof(bool), typeof(ConfigItem), new UIPropertyMetadata(false));
+    public bool ShowDescriptionBelow
+    {
+        get
+        {
+            return (bool)GetValue(ShowDescriptionBelowProperty);
+        }
+        set
+        {
+            SetValue(ShowDescriptionBelowProperty, value);
+        }
+    }
 }
 
 
