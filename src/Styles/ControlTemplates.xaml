@@ -3082,4 +3082,30 @@
         <Setter Property="Padding" Value="4"/>
     </Style>
 
+    <Style TargetType="{x:Type ui:Spinner}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:Spinner}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+                    </ControlTemplate.Resources>
+                    <Ellipse StrokeThickness="3" StrokeDashArray="10 5" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Stroke="{DynamicResource MainAccent}" Visibility="{TemplateBinding IsLoading, Converter={StaticResource BoolToVisibility}}" RenderTransformOrigin="0.5 0.5">
+                        <Ellipse.RenderTransform>
+                            <RotateTransform x:Name="Spin" Angle="0"/>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetName="Spin" Storyboard.TargetProperty="Angle" From="0" To="360"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
