@@ -1,12 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace BaseUISupport.Helpers;
 
 public static class ScrollViewerHelper
 {
+    // HOOK WINDOW TO WIN32'S MOUSEWHEEL MESSAGES
+
+    private const int WM_MOUSEHWHEEL = 0x020E;
+    private static readonly List<HwndSource> Hooks = [];
+
+    public static void EnableHorizontalWheel(this Window window)
+    {
+        if (PresentationSource.FromVisual(window) is HwndSource source)
+        {
+            if (Hooks.Contains(source)) return;
+            source.AddHook(Hook);
+            Hooks.Add(source);
+            window.Closed += (w, e) =>
+            {
+                source.RemoveHook(Hook);
+                Hooks.Remove(source);
+            };
+        }
+        else
+        {
+            window.Dispatcher.BeginInvoke(() => window.EnableHorizontalWheel());
+        }
+    }
+
+    private static IntPtr Hook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == WM_MOUSEHWHEEL)
+        {
+            if (Mouse.DirectlyOver is not UIElement element) return IntPtr.Zero;
+
+            int delta = (short)((long)wParam >> 16);
+            ScrollViewer? scrollViewer = element switch
+            {
+                ScrollViewer s => s,
+                UIElement ui => ui.FindParent<ScrollViewer>(),
+                _ => null,
+            };
+
+            if (scrollViewer is not null && scrollViewer.ScrollableWidth > 0)
+            {
+                ScrollHorizontally(scrollViewer, -delta);
+                handled = true;
+            }
+        }
+        return IntPtr.Zero;
+    }
+
     // USE SHIFT TO SCROLL HORIZONTALLY WITH MOUSE WHEEL
 
     public static readonly DependencyProperty ShiftWheelScrollsHorizontallyProperty = DependencyProperty.RegisterAttached("ShiftWheelScrollsHorizontally", typeof(bool), typeof(ScrollViewerHelper), new PropertyMetadata(false, ShiftWheelScrollsHorizontallyChangedCallback));
@@ -39,25 +88,7 @@ public static class ScrollViewerHelper
                     if ((scrollViewer.ScrollableHeight > 0 && Keyboard.Modifiers == ModifierKeys.Shift)
                         || scrollViewer.ScrollableHeight == 0)
                     {
-                        double scroll = Math.Round(10 * scrollViewer.PanningRatio);
-                        var lines = 0;
-
-                        if (e.Delta < 0)
-                        {
-                            while (lines < scroll)
-                            {
-                                scrollViewer.LineRight();
-                                lines++;
-                            }
-                        }
-                        else
-                        {
-                            while (lines < scroll)
-                            {
-                                scrollViewer.LineLeft();
-                                lines++;
-                            }
-                        }
+                        ScrollHorizontally(scrollViewer, e.Delta);
                         e.Handled = true;
                         return;
                     }
@@ -70,6 +101,13 @@ public static class ScrollViewerHelper
         catch (Exception) { }
     }
 
+    private static void ScrollHorizontally(ScrollViewer scrollViewer, int delta)
+    {
+        double scroll = 20 * scrollViewer.PanningRatio * Math.Sign(delta);
+        double newOffset = scrollViewer.HorizontalOffset - scroll;
+        newOffset = Math.Max(0, Math.Min(newOffset, scrollViewer.ScrollableWidth));
+        scrollViewer.ScrollToHorizontalOffset(newOffset);
+    }
 
     /*
      * 

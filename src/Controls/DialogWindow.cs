@@ -9,6 +9,7 @@ using System.Security;
 using System.Windows.Controls;
 using System.Threading;
 using System.Windows.Media;
+using BaseUISupport.Helpers;
 
 namespace BaseUISupport.Controls;
 
@@ -177,6 +178,8 @@ public partial class DialogWindow : Window, INotifyPropertyChanged, IDisposable
 
         HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
         source.AddHook(new HwndSourceHook(WndProc));
+
+        this.EnableHorizontalWheel();
     }
 
     private static void WmSizing(IntPtr hwnd, IntPtr lParam, Window target)

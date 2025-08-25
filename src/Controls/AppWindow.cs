@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Shell;
 using System.Threading;
 using System.Diagnostics;
+using BaseUISupport.Helpers;
 
 namespace BaseUISupport.Controls;
 
@@ -144,6 +145,8 @@ public partial class AppWindow : Window, INotifyPropertyChanged, IDisposable
 
         HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
         source.AddHook(new HwndSourceHook(WndProc));
+
+        this.EnableHorizontalWheel();
     }
 
     private static void WmSizing(IntPtr hwnd, IntPtr lParam, Window target)

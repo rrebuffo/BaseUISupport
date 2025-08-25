@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Security;
 using System.Windows.Media;
 using System.Threading;
+using BaseUISupport.Helpers;
 
 namespace BaseUISupport.Controls;
 
@@ -56,6 +57,8 @@ public partial class FullscreenWindow : Window, INotifyPropertyChanged
 
         HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
         source.AddHook(new HwndSourceHook(WndProc));
+
+        this.EnableHorizontalWheel();
     }
 
     private void FullscreenWindow_MouseDown(object? sender, MouseButtonEventArgs e)
