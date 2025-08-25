@@ -169,6 +169,32 @@ public class ConfigItem : Control
             SetValue(ShowDescriptionBelowProperty, value);
         }
     }
+
+    public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(ConfigItem), new UIPropertyMetadata(false));
+    public bool IsReadOnly
+    {
+        get
+        {
+            return (bool)GetValue(IsReadOnlyProperty);
+        }
+        set
+        {
+            SetValue(IsReadOnlyProperty, value);
+        }
+    }
+
+    public static readonly DependencyProperty LiveUpdateProperty = DependencyProperty.Register("LiveUpdate", typeof(bool), typeof(ConfigItem), new UIPropertyMetadata(false));
+    public bool LiveUpdate
+    {
+        get
+        {
+            return (bool)GetValue(LiveUpdateProperty);
+        }
+        set
+        {
+            SetValue(LiveUpdateProperty, value);
+        }
+    }
 }
 
 

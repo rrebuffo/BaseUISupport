@@ -2781,13 +2781,14 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     
+    <sys:Double x:Key="DescColMinWidth">160</sys:Double>
+
     <Style TargetType="{x:Type ui:ConfigItem}" x:Key="ConfigItem">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ui:ConfigItem}">
                     <ControlTemplate.Resources>
-                        <sys:Double x:Key="DescColMinWidth">160</sys:Double>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PropertyNameTextBlock}" />
                         <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBox}">
                             <Setter Property="Margin" Value="2" />
@@ -2895,7 +2896,12 @@
                                                 <Setter Property="ContentTemplate">
                                                     <Setter.Value>
                                                         <DataTemplate>
-                                                            <TextBox Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:ConfigItem}}, Path=Binding, Mode=TwoWay}" VerticalContentAlignment="Center" />
+                                                            <TextBox x:Name="InputText" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:ConfigItem}}, Path=Binding, Mode=TwoWay}" VerticalContentAlignment="Center" IsReadOnly="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:ConfigItem}}, Path=IsReadOnly, Mode=TwoWay}" />
+                                                            <DataTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:ConfigItem}}, Path=LiveUpdate, Mode=OneWay}" Value="True">
+                                                                    <Setter TargetName="InputText" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:ConfigItem}}, Path=Binding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                </DataTrigger>
+                                                            </DataTemplate.Triggers>
                                                         </DataTemplate>
                                                     </Setter.Value>
                                                 </Setter>
